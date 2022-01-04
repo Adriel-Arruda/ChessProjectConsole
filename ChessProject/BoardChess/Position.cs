@@ -1,5 +1,5 @@
 ﻿
-namespace Board
+namespace BoardChess
 {
     internal class Position
     {
