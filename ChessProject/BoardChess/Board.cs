@@ -19,5 +19,11 @@ namespace BoardChess
             return Pieces[row, colunm];
         }
 
+        public void PutPiece(Piece piece, Position position)
+        {
+            Pieces[position.Row, position.Colunm] = piece;
+            piece.Position = position;
+        }
+
     }
 }
