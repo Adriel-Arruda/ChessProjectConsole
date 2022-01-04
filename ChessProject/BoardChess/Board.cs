@@ -19,10 +19,39 @@ namespace BoardChess
             return Pieces[row, colunm];
         }
 
+        public Piece Piece(Position position)
+        {
+            return Pieces[position.Row, position.Colunm];
+        }
+        public bool ThereIsAPiece(Position position)
+        {
+            PositionIsValid(position);
+            return Piece(position) != null;
+        }
+
         public void PutPiece(Piece piece, Position position)
         {
+            if (ThereIsAPiece(position))
+            {
+                throw new BoardException("There is already a piece in this position!");
+            }
             Pieces[position.Row, position.Colunm] = piece;
             piece.Position = position;
+        }
+        public bool PositionIsValid(Position position)
+        {
+            if(position.Row<0  ||position.Colunm<0 || position.Row >= Rows || position.Colunm >= Colunms)
+            {
+                return false;
+            }
+            return true;
+        }
+        public void ValidatePosition(Position position)
+        {
+            if(!PositionIsValid(position))
+            {
+                throw new BoardException("Invalid position!");
+            }
         }
 
     }
