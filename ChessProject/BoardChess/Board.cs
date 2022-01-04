@@ -1,4 +1,4 @@
-﻿
+﻿using BoardChess;
 namespace BoardChess
 {
     internal class Board
@@ -14,6 +14,10 @@ namespace BoardChess
             Pieces = new Piece[Rows, Colunms];
         }
 
+        public Piece Piece(int row, int colunm)
+        {
+            return Pieces[row, colunm];
+        }
 
     }
 }
