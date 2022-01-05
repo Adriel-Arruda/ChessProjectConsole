@@ -8,17 +8,22 @@ namespace ChessProject
         {
             try
             {
-                Board board = new Board(8, 8);
+                ChessMatch match = new ChessMatch();
 
-                board.PutPiece(new Tower(board, Color.Preta), new Position(0, 0));
-                board.PutPiece(new Tower(board, Color.Preta), new Position(1, 3));
-                board.PutPiece(new King(board, Color.Preta), new Position(2, 4));
+                while (!match.finish)
+                {
+                    Console.Clear();
+                    Screen.BoardPrint(match.Board);
+                    Console.WriteLine(); 
 
-                board.PutPiece(new Tower(board, Color.Branca), new Position(7, 7));
-                board.PutPiece(new Tower(board, Color.Branca), new Position(5, 1));
-                board.PutPiece(new King(board, Color.Branca), new Position(2, 6));
+                    Console.Write("Origin: ");
+                    Position origin = Screen.ReadPosition().ToPosition();
+                    Console.Write("Destiny: ");
+                    Position destiny = Screen.ReadPosition().ToPosition();
+                    match.MakeMovement(origin, destiny);
+                }
 
-                Screen.BoardPrint(board);
+                
                 Console.ReadLine();
             }
             catch (BoardException error)

@@ -38,9 +38,19 @@ namespace BoardChess
             Pieces[position.Row, position.Colunm] = piece;
             piece.Position = position;
         }
+        public Piece RemovePiece(Position position)
+        {
+            if (Piece(position) == null)
+            {
+                return null;
+            }
+            Piece aux = Piece(position);
+            Pieces[position.Row, position.Colunm] = null;
+            return aux;
+        }
         public bool PositionIsValid(Position position)
         {
-            if(position.Row<0  ||position.Colunm<0 || position.Row >= Rows || position.Colunm >= Colunms)
+            if (position.Row < 0 || position.Colunm < 0 || position.Row >= Rows || position.Colunm >= Colunms)
             {
                 return false;
             }
@@ -48,7 +58,7 @@ namespace BoardChess
         }
         public void ValidatePosition(Position position)
         {
-            if(!PositionIsValid(position))
+            if (!PositionIsValid(position))
             {
                 throw new BoardException("Invalid position!");
             }
