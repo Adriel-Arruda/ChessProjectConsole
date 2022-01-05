@@ -53,7 +53,7 @@ namespace Chess
             }
             
             //Down
-            pos.SetValues(Position.Row - 1, Position.Colunm);
+            pos.SetValues(Position.Row + 1, Position.Colunm);
             if (Board.PositionIsValid(pos))
             {
                 validMovements[pos.Row, pos.Colunm] = true;

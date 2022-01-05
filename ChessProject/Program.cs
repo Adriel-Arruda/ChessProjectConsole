@@ -12,25 +12,42 @@ namespace ChessProject
 
                 while (!match.finish)
                 {
-                    Console.Clear();
-                    Screen.BoardPrint(match.Board);
-                    Console.WriteLine(); 
+                    try
+                    {
 
-                    Console.Write("Origin: ");
-                    Position origin = Screen.ReadPosition().ToPosition();
+                        Console.Clear();
+                        Screen.BoardPrint(match.Board);
+                        Console.WriteLine();
+                        Console.WriteLine("Shift: " + match.shift);
+                        Console.WriteLine("Waiting play: " + match.currentPlayer);
 
-                    bool[,] validPositions = match.Board.Piece(origin).ValidMovements();
+                        Console.Write("Origin: ");
+                        Position origin = Screen.ReadPosition().ToPosition();
+                        match.ValidPlayOriginPosition(origin);
 
-                    Console.Clear();
-                    Screen.BoardPrint(match.Board, validPositions);
+                        bool[,] validPositions = match.Board.Piece(origin).ValidMovements();
 
-                    Console.WriteLine();
-                    Console.Write("Destiny: ");
-                    Position destiny = Screen.ReadPosition().ToPosition();
-                    match.MakeMovement(origin, destiny);
+                        Console.Clear();
+                        Screen.BoardPrint(match.Board, validPositions);
+
+                        Console.WriteLine();
+                        Console.WriteLine("Shift: " + match.shift);
+                        Console.WriteLine("Waiting play: " + match.currentPlayer);
+
+                        Console.Write("Destiny: ");
+                        Position destiny = Screen.ReadPosition().ToPosition();
+                        match.ValidPlayDestinyPosition(origin, destiny);
+                        
+                        match.Play(origin, destiny);
+                    }
+                    catch (BoardException error)
+                    {
+                        Console.Write(error.Message);
+                        Console.ReadLine();
+                    }
                 }
 
-                
+
                 Console.ReadLine();
             }
             catch (BoardException error)

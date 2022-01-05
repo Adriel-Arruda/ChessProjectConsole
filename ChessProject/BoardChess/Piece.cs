@@ -23,6 +23,28 @@ namespace BoardChess
             MoveAmount++;
         }
 
+        public bool ThereValidMovement()
+        {
+            bool[,] mat = ValidMovements();
+            for(int i = 0; i < Board.Rows; i++)
+            {
+                for(int j =0; j < Board.Colunms; j++)
+                {
+                    if(mat[i, j])
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        public bool CanMoveTo(Position pos)
+        {
+            return ValidMovements()[pos.Row, pos.Colunm];
+        }
+
         public abstract bool[,] ValidMovements();
+        
     }
 }
