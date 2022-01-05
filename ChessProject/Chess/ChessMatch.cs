@@ -31,7 +31,9 @@ namespace Chess
         {
 
             Board.PutPiece(new Tower(Board, Color.Preta), new ChessPosition('c', 1).ToPosition());
-         
+            Board.PutPiece(new King(Board, Color.Preta), new ChessPosition('e', 1).ToPosition());
+
+
         }
     }
 }

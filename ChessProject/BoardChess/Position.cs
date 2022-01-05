@@ -12,6 +12,12 @@ namespace BoardChess
             Colunm = colunm;
         }
 
+        public void SetValues(int row, int colunm)
+        {
+            Row = row;
+            Colunm = colunm;
+        }
+
         public override string ToString()
         {
             return Row + ", " + Colunm;

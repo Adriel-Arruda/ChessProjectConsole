@@ -2,7 +2,7 @@
 
 namespace BoardChess
 {
-    class Piece
+    abstract class Piece
     {
         public Position Position { get; set; }
         public Color Color{ get; set; }
@@ -23,6 +23,6 @@ namespace BoardChess
             MoveAmount++;
         }
 
-
+        public abstract bool[,] ValidMovements();
     }
 }
