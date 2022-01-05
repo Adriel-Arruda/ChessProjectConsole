@@ -11,13 +11,15 @@ namespace Chess
             Colunm = colunm;
             Row = row;
         }
+        
         public Position ToPosition()
         {
             return new Position(8-Row, Colunm-'a');
         }
+
         public override string ToString()
         {
-            return "" + Colunm + Row;
+            return $"{Colunm}{Row}";
         }
     }
 }
