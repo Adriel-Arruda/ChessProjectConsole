@@ -16,11 +16,9 @@ namespace ChessProject
                     {
 
                         Console.Clear();
-                        Screen.BoardPrint(match.Board);
-                        Console.WriteLine();
-                        Console.WriteLine("Shift: " + match.shift);
-                        Console.WriteLine("Waiting play: " + match.currentPlayer);
+                        Screen.MatchPrint(match);
 
+                        Console.WriteLine();
                         Console.Write("Origin: ");
                         Position origin = Screen.ReadPosition().ToPosition();
                         match.ValidPlayOriginPosition(origin);

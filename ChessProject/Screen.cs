@@ -1,10 +1,21 @@
 ﻿using BoardChess;
 using Chess;
+using System.Collections.Generic;
 
 namespace ChessProject
 {
     class Screen
     {
+        public static void MatchPrint(ChessMatch match)
+        {
+            BoardPrint(match.Board);
+            Console.WriteLine();
+            CapturedPiecesPrint(match);
+            Console.WriteLine();
+            Console.WriteLine("Shift: " + match.shift);
+            Console.WriteLine("Waiting play: " + match.currentPlayer);
+        }
+
         public static void BoardPrint(Board board)
         {
             for (int i = 0; i < board.Rows; i++)
@@ -75,6 +86,30 @@ namespace ChessProject
             int row = int.Parse($"{pos[1]}");
 
             return new ChessPosition(colunm, row);
+        }
+
+        private static void CapturedPiecesPrint(ChessMatch match)
+        {
+            Console.WriteLine("Captured pieces: ");
+            Console.Write("White: ");
+            PrintPieces(match.CapturedPieces(Color.Branca));
+            Console.WriteLine();
+            Console.Write("Black: ");
+            ConsoleColor aux = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            PrintPieces(match.CapturedPieces(Color.Preta));
+            Console.ForegroundColor = aux;
+            Console.WriteLine();
+        }
+
+        private static void PrintPieces(HashSet<Piece> conjunct)
+        {
+            Console.Write("[");
+            foreach (Piece piece in conjunct)
+            {
+                Console.Write(piece + ", ");
+            }
+            Console.Write("]");
         }
     }
 }
