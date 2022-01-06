@@ -14,6 +14,14 @@ namespace ChessProject
             Console.WriteLine();
             Console.WriteLine("Shift: " + match.shift);
             Console.WriteLine("Waiting play: " + match.currentPlayer);
+            if (match.check)
+            {
+                Console.WriteLine();
+                Console.WriteLine("----------");
+                Console.WriteLine("| CHECK! |");
+                Console.WriteLine("----------");
+                Console.WriteLine();
+            }
         }
 
         public static void BoardPrint(Board board)
@@ -30,6 +38,7 @@ namespace ChessProject
             }
             Console.WriteLine("  a b c d e f g h");
         }
+
         public static void BoardPrint(Board board, bool[,] validPositions)
         {
             ConsoleColor originalBackground = Console.BackgroundColor;
@@ -40,7 +49,7 @@ namespace ChessProject
                 Console.Write(8 - i + " ");
                 for (int j = 0; j < board.Colunms; j++)
                 {
-                    if(validPositions[i, j])
+                    if (validPositions[i, j])
                     {
                         Console.BackgroundColor = newBackground;
                     }
@@ -48,13 +57,13 @@ namespace ChessProject
                     {
                         Console.BackgroundColor = originalBackground;
                     }
-                    PrintPiece(board.Piece(i, j)); 
+                    PrintPiece(board.Piece(i, j));
                 }
                 Console.WriteLine();
             }
             Console.BackgroundColor = originalBackground;
             Console.WriteLine("  a b c d e f g h");
-            
+
         }
 
         public static void PrintPiece(Piece piece)

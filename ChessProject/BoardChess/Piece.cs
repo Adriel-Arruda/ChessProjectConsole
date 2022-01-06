@@ -23,6 +23,11 @@ namespace BoardChess
             MoveAmount++;
         }
 
+        public void MoveAmountDecrement()
+        {
+            MoveAmount--;
+        }
+
         public bool ThereValidMovement()
         {
             bool[,] mat = ValidMovements();

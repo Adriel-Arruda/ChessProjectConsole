@@ -14,7 +14,6 @@ namespace ChessProject
                 {
                     try
                     {
-
                         Console.Clear();
                         Screen.MatchPrint(match);
 
@@ -36,7 +35,7 @@ namespace ChessProject
                         Position destiny = Screen.ReadPosition().ToPosition();
                         match.ValidPlayDestinyPosition(origin, destiny);
                         
-                        match.Play(origin, destiny);
+                        match.ExecutePlay(origin, destiny);
                     }
                     catch (BoardException error)
                     {
@@ -44,8 +43,6 @@ namespace ChessProject
                         Console.ReadLine();
                     }
                 }
-
-
                 Console.ReadLine();
             }
             catch (BoardException error)
