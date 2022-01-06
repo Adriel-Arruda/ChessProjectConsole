@@ -27,54 +27,54 @@ namespace Chess
             //King movements
             //Up
             pos.SetValues(Position.Row - 1, Position.Colunm);
-            if (Board.PositionIsValid(pos))
+            if (Board.PositionIsValid(pos) && CanMove(pos))
             {
                 validMovements[pos.Row, pos.Colunm] = true;
             }
 
             //NE
             pos.SetValues(Position.Row - 1, Position.Colunm+1);
-            if (Board.PositionIsValid(pos))
+            if (Board.PositionIsValid(pos) && CanMove(pos))
             {
                 validMovements[pos.Row, pos.Colunm] = true;
             }
 
             //Rigth
             pos.SetValues(Position.Row, Position.Colunm+1);
-            if (Board.PositionIsValid(pos))
+            if (Board.PositionIsValid(pos) && CanMove(pos))
             {
                 validMovements[pos.Row, pos.Colunm] = true;
             }
 
             //SE
             pos.SetValues(Position.Row + 1, Position.Colunm + 1);
-            if (Board.PositionIsValid(pos))
+            if (Board.PositionIsValid(pos) && CanMove(pos))
             {
                 validMovements[pos.Row, pos.Colunm] = true;
             }
             
             //Down
             pos.SetValues(Position.Row + 1, Position.Colunm);
-            if (Board.PositionIsValid(pos))
+            if (Board.PositionIsValid(pos) && CanMove(pos))
             {
                 validMovements[pos.Row, pos.Colunm] = true;
             }
 
             //SW
             pos.SetValues(Position.Row + 1, Position.Colunm -1);
-            if (Board.PositionIsValid(pos))
+            if (Board.PositionIsValid(pos) && CanMove(pos))
             {
                 validMovements[pos.Row, pos.Colunm] = true;
             }
             //Left
             pos.SetValues(Position.Row, Position.Colunm - 1);
-            if (Board.PositionIsValid(pos))
+            if (Board.PositionIsValid(pos) && CanMove(pos))
             {
                 validMovements[pos.Row, pos.Colunm] = true;
             }
             //NW
             pos.SetValues(Position.Row - 1, Position.Colunm - 1);
-            if (Board.PositionIsValid(pos))
+            if (Board.PositionIsValid(pos) && CanMove(pos))
             {
                 validMovements[pos.Row, pos.Colunm] = true;
             }

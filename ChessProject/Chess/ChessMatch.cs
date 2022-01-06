@@ -188,11 +188,12 @@ namespace Chess
                             Position destiny = new Position(i, j);
                             Piece capturedPiece = MakeMovement(origin, destiny);
                             bool testCheck = IsInCheck(color);
-                            UndoMovement(origin, destiny, capturedPiece);
                             if (!testCheck)
                             {
+                                UndoMovement(origin, destiny, capturedPiece);
                                 return false;
                             }
+                            UndoMovement(origin, destiny, capturedPiece);
                         }
                     }
                 }

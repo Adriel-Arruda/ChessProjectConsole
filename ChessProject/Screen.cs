@@ -91,10 +91,9 @@ namespace ChessProject
                 }
                 else
                 {
-                    ConsoleColor aux = Console.ForegroundColor;
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.Write(piece);
-                    Console.ForegroundColor = aux;
+                    Console.ForegroundColor = ConsoleColor.White;
                 }
             }
         }
