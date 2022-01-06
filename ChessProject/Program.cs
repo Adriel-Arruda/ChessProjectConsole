@@ -43,7 +43,8 @@ namespace ChessProject
                         Console.ReadLine();
                     }
                 }
-                Console.ReadLine();
+                Console.Clear();
+                Screen.MatchPrint(match);
             }
             catch (BoardException error)
             {

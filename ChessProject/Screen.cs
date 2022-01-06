@@ -13,16 +13,26 @@ namespace ChessProject
             CapturedPiecesPrint(match);
             Console.WriteLine();
             Console.WriteLine("Shift: " + match.shift);
-            Console.WriteLine("Waiting play: " + match.currentPlayer);
-            if (match.check)
+            if (!match.finish)
             {
-                Console.WriteLine();
-                Console.WriteLine("----------");
-                Console.WriteLine("| CHECK! |");
-                Console.WriteLine("----------");
-                Console.WriteLine();
+                Console.WriteLine("Aguardando jogada: " + match.currentPlayer);
+                if (match.check)
+                {
+                    Console.WriteLine();
+                    Console.WriteLine("----------");
+                    Console.WriteLine("| CHECK! |");
+                    Console.WriteLine("----------");
+                    Console.WriteLine();
+                }
+            }
+            else
+            {
+                Console.WriteLine("XEQUEMATE!");
+                Console.WriteLine("Vencedor: " + match.currentPlayer);
             }
         }
+
+        
 
         public static void BoardPrint(Board board)
         {
