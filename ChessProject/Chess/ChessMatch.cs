@@ -202,17 +202,42 @@ namespace Chess
         private void PutPiecesMatch()
         {
             PutNewPiece('a', 1, new Tower(Board, Color.Branca));
+            PutNewPiece('b', 1, new Horse(Board, Color.Branca));
+            PutNewPiece('c', 1, new Bishop(Board, Color.Branca));
+            PutNewPiece('d', 1, new Queen(Board, Color.Branca));
+            PutNewPiece('e', 1, new King(Board, Color.Branca));
+            PutNewPiece('f', 1, new Bishop(Board, Color.Branca));
+            PutNewPiece('g', 1, new Horse(Board, Color.Branca));
             PutNewPiece('h', 1, new Tower(Board, Color.Branca));
-            PutNewPiece('d', 1, new King(Board, Color.Branca));
+            PutNewPiece('a', 2, new Pawn(Board, Color.Branca));
+            PutNewPiece('b', 2, new Pawn(Board, Color.Branca));
+            PutNewPiece('c', 2, new Pawn(Board, Color.Branca));
+            PutNewPiece('d', 2, new Pawn(Board, Color.Branca));
+            PutNewPiece('e', 2, new Pawn(Board, Color.Branca));
+            PutNewPiece('f', 2, new Pawn(Board, Color.Branca));
+            PutNewPiece('g', 2, new Pawn(Board, Color.Branca));
+            PutNewPiece('h', 2, new Pawn(Board, Color.Branca));
 
             PutNewPiece('a', 8, new Tower(Board, Color.Preta));
+            PutNewPiece('b', 8, new Horse(Board, Color.Preta));
+            PutNewPiece('c', 8, new Bishop(Board, Color.Preta));
+            PutNewPiece('d', 8, new Queen(Board, Color.Preta));
+            PutNewPiece('e', 8, new King(Board, Color.Preta));
+            PutNewPiece('f', 8, new Bishop(Board, Color.Preta));
+            PutNewPiece('g', 8, new Horse(Board, Color.Preta));
             PutNewPiece('h', 8, new Tower(Board, Color.Preta));
-            PutNewPiece('d', 8, new King(Board, Color.Preta));
-
+            PutNewPiece('a', 7, new Pawn(Board, Color.Preta));
+            PutNewPiece('b', 7, new Pawn(Board, Color.Preta));
+            PutNewPiece('c', 7, new Pawn(Board, Color.Preta));
+            PutNewPiece('d', 7, new Pawn(Board, Color.Preta));
+            PutNewPiece('e', 7, new Pawn(Board, Color.Preta));
+            PutNewPiece('f', 7, new Pawn(Board, Color.Preta));
+            PutNewPiece('g', 7, new Pawn(Board, Color.Preta));
+            PutNewPiece('h', 7, new Pawn(Board, Color.Preta));
         }
 
-        private Color AdversaryColor(Color cor)
-            => cor == Color.Branca ? Color.Preta : Color.Branca;
+        private Color AdversaryColor(Color Color)
+            => Color == Color.Branca ? Color.Preta : Color.Branca;
 
         private Piece King(Color color)
         {

@@ -25,7 +25,7 @@ namespace BoardChess
         }
         public bool ThereIsAPiece(Position position)
         {
-            PositionIsValid(position);
+            ValidatePosition(position);
             return Piece(position) != null;
         }
 
