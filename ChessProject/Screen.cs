@@ -70,6 +70,7 @@ namespace ChessProject
                     PrintPiece(board.Piece(i, j));
                 }
                 Console.WriteLine();
+                Console.BackgroundColor = originalBackground;
             }
             Console.BackgroundColor = originalBackground;
             Console.WriteLine("  a b c d e f g h");

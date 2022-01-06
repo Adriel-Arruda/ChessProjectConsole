@@ -100,7 +100,7 @@ namespace Chess
         }
         public void ValidPlayDestinyPosition(Position origin, Position destiny)
         {
-            if (Board.Piece(origin).CanMoveTo(destiny) == false)
+            if (Board.Piece(origin).PossibleMovement(destiny) == false)
             {
                 throw new BoardException("Target position is invalid!");
             }
