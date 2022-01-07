@@ -19,6 +19,7 @@ namespace ChessProject
 
                         Console.WriteLine();
                         Console.Write("Origin: ");
+
                         Position origin = Screen.ReadPosition().ToPosition();
                         match.ValidPlayOriginPosition(origin);
 
@@ -37,7 +38,7 @@ namespace ChessProject
                         
                         match.ExecutePlay(origin, destiny);
                     }
-                    catch (BoardException error)
+                    catch (Exception error)
                     {
                         Console.Write(error.Message);
                         Console.ReadLine();

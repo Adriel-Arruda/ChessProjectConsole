@@ -4,9 +4,10 @@ namespace Chess
 {
     class King : Piece
     {
-        public King(Board board, Color color) : base(board, color)
+        private ChessMatch match;
+        public King(Board board, Color color, ChessMatch match) : base(board, color)
         {
-
+            this.match = match;
         }
 
         public override string ToString()
@@ -17,6 +18,12 @@ namespace Chess
         {
             Piece piece = Board.Piece(position);
             return piece == null || piece.Color != Color;
+        }
+
+        private bool CastlingTowerTest(Position pos)
+        {
+            Piece piece = Board.Piece(pos);
+            return piece == null || piece is Tower && MoveAmount ==0;
         }
 
         public override bool[,] ValidMovements()
@@ -78,6 +85,38 @@ namespace Chess
             {
                 validMovements[pos.Row, pos.Colunm] = true;
             }
+
+            // Castling
+                      
+            if(MoveAmount == 0 && !match.check)
+            {
+                //Kingside
+                Position towerPos1 = new Position(Position.Row, Position.Colunm + 3);
+                if (CastlingTowerTest(towerPos1))
+                {
+                    Position p1 = new Position(Position.Row, Position.Colunm +1);
+                    Position p2 = new Position(Position.Row, Position.Colunm + 2);
+                    if(Board.Piece(p1)==null && Board.Piece(p2) == null)
+                    {
+                        validMovements[Position.Row, Position.Colunm + 2] = true;
+                    }
+                }
+
+                //Queenside
+                Position towerPos2 = new Position(Position.Row, Position.Colunm - 4);
+                if (CastlingTowerTest(towerPos2))
+                {
+                    Position p1 = new Position(Position.Row, Position.Colunm - 1);
+                    Position p2 = new Position(Position.Row, Position.Colunm - 2);
+                    Position p3 = new Position(Position.Row, Position.Colunm - 3);
+                    if(Board.Piece(p1)==null && Board.Piece(p2)==null && Board.Piece(p3) == null)
+                    {
+                        validMovements[Position.Row, Position.Colunm - 2] = true;
+                    }
+                }
+            }
+
+
             return validMovements;
         }
     }

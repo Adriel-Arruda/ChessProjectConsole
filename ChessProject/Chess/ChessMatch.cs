@@ -38,6 +38,24 @@ namespace Chess
             {
                 captured.Add(capturedPiece);
             }
+            //Castling Kingside
+            if(piece is King && destiny.Colunm == origin.Colunm + 2)
+            {
+                Position originTower = new Position(origin.Row, origin.Colunm + 3);
+                Position destinyTower = new Position(origin.Row, origin.Colunm + 1);
+                Piece tower = Board.RemovePiece(originTower);
+                Board.PutPiece(tower, destinyTower);
+            }
+            //Castling Queenside
+            if (piece is King && destiny.Colunm == origin.Colunm - 2)
+            {
+                Position originTower = new Position(origin.Row, origin.Colunm - 4);
+                Position destinyTower = new Position(origin.Row, origin.Colunm - 1);
+                Piece tower = Board.RemovePiece(originTower);
+                Board.PutPiece(tower, destinyTower);
+            }
+
+
             return capturedPiece;
         }
 
@@ -52,6 +70,25 @@ namespace Chess
                 captured.Remove(capturedPiece);
             }
             Board.PutPiece(piece, origin);
+            
+            //Castling Kingside
+            if (piece is King && destiny.Colunm == origin.Colunm + 2)
+            {
+                Position originTower = new Position(origin.Row, origin.Colunm + 3);
+                Position destinyTower = new Position(origin.Row, origin.Colunm + 1);
+                Piece tower = Board.RemovePiece(destinyTower);
+                tower.MoveAmountDecrement();
+                Board.PutPiece(tower, origin);
+            }
+
+            //Castling Queenside
+            if (piece is King && destiny.Colunm == origin.Colunm - 2)
+            {
+                Position originTower = new Position(origin.Row, origin.Colunm - 4);
+                Position destinyTower = new Position(origin.Row, origin.Colunm - 1);
+                Piece tower = Board.RemovePiece(destinyTower);
+                Board.PutPiece(tower, originTower);
+            }
         }
 
         public void ExecutePlay(Position origin, Position destiny)
@@ -206,7 +243,7 @@ namespace Chess
             PutNewPiece('b', 1, new Horse(Board, Color.Branca));
             PutNewPiece('c', 1, new Bishop(Board, Color.Branca));
             PutNewPiece('d', 1, new Queen(Board, Color.Branca));
-            PutNewPiece('e', 1, new King(Board, Color.Branca));
+            PutNewPiece('e', 1, new King(Board, Color.Branca, this));
             PutNewPiece('f', 1, new Bishop(Board, Color.Branca));
             PutNewPiece('g', 1, new Horse(Board, Color.Branca));
             PutNewPiece('h', 1, new Tower(Board, Color.Branca));
@@ -223,7 +260,7 @@ namespace Chess
             PutNewPiece('b', 8, new Horse(Board, Color.Preta));
             PutNewPiece('c', 8, new Bishop(Board, Color.Preta));
             PutNewPiece('d', 8, new Queen(Board, Color.Preta));
-            PutNewPiece('e', 8, new King(Board, Color.Preta));
+            PutNewPiece('e', 8, new King(Board, Color.Preta, this));
             PutNewPiece('f', 8, new Bishop(Board, Color.Preta));
             PutNewPiece('g', 8, new Horse(Board, Color.Preta));
             PutNewPiece('h', 8, new Tower(Board, Color.Preta));
