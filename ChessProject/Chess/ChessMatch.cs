@@ -74,10 +74,7 @@ namespace Chess
                     captured.Add(capturedPiece);
                 }
             }
-
-
-
-            return capturedPiece;
+           return capturedPiece;
         }
 
         public void UndoMovement(Position origin, Position destiny, Piece capturedPiece)
@@ -140,6 +137,21 @@ namespace Chess
                 UndoMovement(origin, destiny, capturedPiece);
                 throw new BoardException("You can't put yourself in check!");
             }
+            Piece piece = Board.Piece(destiny);
+
+            //Promotion
+            if(piece is Pawn)
+            {
+                if((piece.Color == Color.White && destiny.Row == 0) ||(piece.Color == Color.Black && destiny.Row == 7))
+                {
+                    piece = Board.RemovePiece(destiny);
+                    pieces.Remove(piece);
+                    Piece queen = new Queen(Board, piece.Color);
+                    Board.PutPiece(queen, destiny);
+                    pieces.Add(queen);
+                }
+            }
+
 
             if (IsInCheck(AdversaryColor(currentPlayer)))
             {
@@ -158,7 +170,6 @@ namespace Chess
                 shift++;
                 PlayerChange();
             }
-            Piece piece = Board.Piece(destiny);
 
             //En Passant
             if (piece is Pawn && (destiny.Row == origin.Row - 2 || destiny.Row == origin.Row + 2))
