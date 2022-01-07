@@ -5,8 +5,10 @@ namespace Chess
 {
     class Pawn : Piece
     {
-        public Pawn(Board board, Color color) : base(board, color)
+        private ChessMatch match;
+        public Pawn(Board board, Color color, ChessMatch match) : base(board, color)
         {
+            this.match = match;
         }
 
         public override string ToString()
@@ -31,7 +33,7 @@ namespace Chess
 
             Position pos = new Position(0, 0);
 
-            if (Color == Color.Branca)
+            if (Color == Color.White)
             {
                 pos.SetValues(Position.Row - 1, Position.Colunm);
                 if (Board.PositionIsValid(pos) && FreeHouse(pos))
@@ -55,6 +57,23 @@ namespace Chess
                 if (Board.PositionIsValid(pos) && ThereIsEnemy(pos))
                 {
                     validMovements[pos.Row, pos.Colunm] = true;
+                }
+
+                //En Passant
+
+                if(Position.Row == 3)
+                {
+                    Position left = new Position(Position.Row, Position.Colunm - 1);
+                    if(Board.PositionIsValid(left) && ThereIsEnemy(left) && Board.Piece(left) == match.pieceEnPassant)
+                    {
+                        validMovements[left.Row - 1, left.Colunm] = true;
+                    }
+
+                    Position right = new Position(Position.Row, Position.Colunm + 1);
+                    if (Board.PositionIsValid(right) && ThereIsEnemy(right) && Board.Piece(right) == match.pieceEnPassant)
+                    {
+                        validMovements[right.Row - 1, right.Colunm] = true;
+                    }
                 }
             }
             else
@@ -80,6 +99,22 @@ namespace Chess
                 if (Board.PositionIsValid(pos) && ThereIsEnemy(pos))
                 {
                     validMovements[pos.Row, pos.Colunm] = true;
+                }
+
+                //En Passant
+                if (Position.Row == 4)
+                {
+                    Position left = new Position(Position.Row, Position.Colunm + 1);
+                    if (Board.PositionIsValid(left) && ThereIsEnemy(left) && Board.Piece(left) == match.pieceEnPassant)
+                    {
+                        validMovements[left.Row + 1, left.Colunm] = true;
+                    }
+
+                    Position right = new Position(Position.Row, Position.Colunm - 1);
+                    if (Board.PositionIsValid(right) && ThereIsEnemy(right) && Board.Piece(right) == match.pieceEnPassant)
+                    {
+                        validMovements[right.Row + 1, right.Colunm] = true;
+                    }
                 }
             }
             return validMovements;

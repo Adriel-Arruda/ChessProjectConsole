@@ -12,13 +12,14 @@ namespace Chess
         public bool check { get; private set; }
         private HashSet<Piece> pieces;
         private HashSet<Piece> captured;
-      
+        public Piece pieceEnPassant { get; private set; }
+
 
         public ChessMatch()
         {
             Board = new Board(8, 8);
             shift = 1;
-            currentPlayer = Color.Branca;
+            currentPlayer = Color.White;
             finish = false;
             pieces = new HashSet<Piece>();
             captured = new HashSet<Piece>();
@@ -39,7 +40,7 @@ namespace Chess
                 captured.Add(capturedPiece);
             }
             //Castling Kingside
-            if(piece is King && destiny.Colunm == origin.Colunm + 2)
+            if (piece is King && destiny.Colunm == origin.Colunm + 2)
             {
                 Position originTower = new Position(origin.Row, origin.Colunm + 3);
                 Position destinyTower = new Position(origin.Row, origin.Colunm + 1);
@@ -55,6 +56,26 @@ namespace Chess
                 Board.PutPiece(tower, destinyTower);
             }
 
+            //En passant
+            if (piece is Pawn)
+            {
+                if (origin.Colunm != destiny.Colunm && capturedPiece == null)
+                {
+                    Position pawnPos;
+                    if (piece.Color == Color.White)
+                    {
+                        pawnPos = new Position(destiny.Row + 1, destiny.Colunm);
+                    }
+                    else
+                    {
+                        pawnPos = new Position(destiny.Row - 1, destiny.Colunm);
+                    }
+                    capturedPiece = Board.RemovePiece(pawnPos);
+                    captured.Add(capturedPiece);
+                }
+            }
+
+
 
             return capturedPiece;
         }
@@ -64,13 +85,13 @@ namespace Chess
             Piece piece = Board.RemovePiece(destiny);
             piece.MoveAmountDecrement();
 
-            if(capturedPiece != null)
+            if (capturedPiece != null)
             {
                 Board.PutPiece(capturedPiece, destiny);
                 captured.Remove(capturedPiece);
             }
             Board.PutPiece(piece, origin);
-            
+
             //Castling Kingside
             if (piece is King && destiny.Colunm == origin.Colunm + 2)
             {
@@ -88,6 +109,26 @@ namespace Chess
                 Position destinyTower = new Position(origin.Row, origin.Colunm - 1);
                 Piece tower = Board.RemovePiece(destinyTower);
                 Board.PutPiece(tower, originTower);
+            }
+
+            //En Passant
+
+            if(piece is Pawn)
+            {
+                if(origin.Colunm != destiny.Colunm && capturedPiece == pieceEnPassant)
+                {
+                    Piece pawn = Board.RemovePiece(destiny);
+                    Position pawnPos;
+                    if(piece.Color == Color.White)
+                    {
+                        pawnPos = new Position(3, destiny.Colunm);
+                    }
+                    else
+                    {
+                        pawnPos = new Position(4, destiny.Colunm);
+                    }
+                    Board.PutPiece(pawn, pawnPos);
+                }
             }
         }
 
@@ -117,8 +158,19 @@ namespace Chess
                 shift++;
                 PlayerChange();
             }
+            Piece piece = Board.Piece(destiny);
+
+            //En Passant
+            if (piece is Pawn && (destiny.Row == origin.Row - 2 || destiny.Row == origin.Row + 2))
+            {
+                pieceEnPassant = piece;
+            }
+            else
+            {
+                pieceEnPassant = null;
+            }
         }
-         
+
 
         public void ValidPlayOriginPosition(Position pos)
         {
@@ -146,13 +198,13 @@ namespace Chess
         private void PlayerChange()
 
         {
-            if (currentPlayer == Color.Branca)
+            if (currentPlayer == Color.White)
             {
-                currentPlayer = Color.Preta;
+                currentPlayer = Color.Black;
             }
             else
             {
-                currentPlayer = Color.Branca;
+                currentPlayer = Color.White;
             }
         }
         public HashSet<Piece> CapturedPieces(Color color)
@@ -196,7 +248,7 @@ namespace Chess
             {
                 throw new BoardException("There is no king on the board!");
             }
-            foreach(Piece piece in PiecesInGame(AdversaryColor(color)))
+            foreach (Piece piece in PiecesInGame(AdversaryColor(color)))
             {
                 bool[,] mat = piece.ValidMovements();
                 if (mat[king.Position.Row, king.Position.Colunm])
@@ -212,16 +264,16 @@ namespace Chess
             {
                 return false;
             }
-            foreach(Piece piece in PiecesInGame(color))
+            foreach (Piece piece in PiecesInGame(color))
             {
                 bool[,] mat = piece.ValidMovements();
-                for(int i = 0; i < Board.Rows; i++)
+                for (int i = 0; i < Board.Rows; i++)
                 {
-                    for(int j = 0; j < Board.Colunms; j++)
+                    for (int j = 0; j < Board.Colunms; j++)
                     {
                         if (mat[i, j])
                         {
-                            Position origin = piece.Position; 
+                            Position origin = piece.Position;
                             Position destiny = new Position(i, j);
                             Piece capturedPiece = MakeMovement(origin, destiny);
                             bool testCheck = IsInCheck(color);
@@ -239,47 +291,48 @@ namespace Chess
         }
         private void PutPiecesMatch()
         {
-            PutNewPiece('a', 1, new Tower(Board, Color.Branca));
-            PutNewPiece('b', 1, new Horse(Board, Color.Branca));
-            PutNewPiece('c', 1, new Bishop(Board, Color.Branca));
-            PutNewPiece('d', 1, new Queen(Board, Color.Branca));
-            PutNewPiece('e', 1, new King(Board, Color.Branca, this));
-            PutNewPiece('f', 1, new Bishop(Board, Color.Branca));
-            PutNewPiece('g', 1, new Horse(Board, Color.Branca));
-            PutNewPiece('h', 1, new Tower(Board, Color.Branca));
-            PutNewPiece('a', 2, new Pawn(Board, Color.Branca));
-            PutNewPiece('b', 2, new Pawn(Board, Color.Branca));
-            PutNewPiece('c', 2, new Pawn(Board, Color.Branca));
-            PutNewPiece('d', 2, new Pawn(Board, Color.Branca));
-            PutNewPiece('e', 2, new Pawn(Board, Color.Branca));
-            PutNewPiece('f', 2, new Pawn(Board, Color.Branca));
-            PutNewPiece('g', 2, new Pawn(Board, Color.Branca));
-            PutNewPiece('h', 2, new Pawn(Board, Color.Branca));
+            //
+            PutNewPiece('a', 1, new Tower(Board, Color.White));
+            PutNewPiece('b', 1, new Horse(Board, Color.White));
+            PutNewPiece('c', 1, new Bishop(Board, Color.White));
+            PutNewPiece('d', 1, new Queen(Board, Color.White));
+            PutNewPiece('e', 1, new King(Board, Color.White, this));
+            PutNewPiece('f', 1, new Bishop(Board, Color.White));
+            PutNewPiece('g', 1, new Horse(Board, Color.White));
+            PutNewPiece('h', 1, new Tower(Board, Color.White));
+            PutNewPiece('a', 2, new Pawn(Board, Color.White, this));
+            PutNewPiece('b', 2, new Pawn(Board, Color.White, this));
+            PutNewPiece('c', 2, new Pawn(Board, Color.White, this));
+            PutNewPiece('d', 2, new Pawn(Board, Color.White, this));
+            PutNewPiece('e', 2, new Pawn(Board, Color.White, this));
+            PutNewPiece('f', 2, new Pawn(Board, Color.White, this));
+            PutNewPiece('g', 2, new Pawn(Board, Color.White, this));
+            PutNewPiece('h', 2, new Pawn(Board, Color.White, this));
 
-            PutNewPiece('a', 8, new Tower(Board, Color.Preta));
-            PutNewPiece('b', 8, new Horse(Board, Color.Preta));
-            PutNewPiece('c', 8, new Bishop(Board, Color.Preta));
-            PutNewPiece('d', 8, new Queen(Board, Color.Preta));
-            PutNewPiece('e', 8, new King(Board, Color.Preta, this));
-            PutNewPiece('f', 8, new Bishop(Board, Color.Preta));
-            PutNewPiece('g', 8, new Horse(Board, Color.Preta));
-            PutNewPiece('h', 8, new Tower(Board, Color.Preta));
-            PutNewPiece('a', 7, new Pawn(Board, Color.Preta));
-            PutNewPiece('b', 7, new Pawn(Board, Color.Preta));
-            PutNewPiece('c', 7, new Pawn(Board, Color.Preta));
-            PutNewPiece('d', 7, new Pawn(Board, Color.Preta));
-            PutNewPiece('e', 7, new Pawn(Board, Color.Preta));
-            PutNewPiece('f', 7, new Pawn(Board, Color.Preta));
-            PutNewPiece('g', 7, new Pawn(Board, Color.Preta));
-            PutNewPiece('h', 7, new Pawn(Board, Color.Preta));
+            PutNewPiece('a', 8, new Tower(Board, Color.Black));
+            PutNewPiece('b', 8, new Horse(Board, Color.Black));
+            PutNewPiece('c', 8, new Bishop(Board, Color.Black));
+            PutNewPiece('d', 8, new Queen(Board, Color.Black));
+            PutNewPiece('e', 8, new King(Board, Color.Black, this));
+            PutNewPiece('f', 8, new Bishop(Board, Color.Black));
+            PutNewPiece('g', 8, new Horse(Board, Color.Black));
+            PutNewPiece('h', 8, new Tower(Board, Color.Black));
+            PutNewPiece('a', 7, new Pawn(Board, Color.Black, this));
+            PutNewPiece('b', 7, new Pawn(Board, Color.Black, this));
+            PutNewPiece('c', 7, new Pawn(Board, Color.Black, this));
+            PutNewPiece('d', 7, new Pawn(Board, Color.Black, this));
+            PutNewPiece('e', 7, new Pawn(Board, Color.Black, this));
+            PutNewPiece('f', 7, new Pawn(Board, Color.Black, this));
+            PutNewPiece('g', 7, new Pawn(Board, Color.Black, this));
+            PutNewPiece('h', 7, new Pawn(Board, Color.Black, this));
         }
 
         private Color AdversaryColor(Color Color)
-            => Color == Color.Branca ? Color.Preta : Color.Branca;
+            => Color == Color.White ? Color.Black : Color.White;
 
         private Piece King(Color color)
         {
-            foreach(Piece piece in PiecesInGame(color))
+            foreach (Piece piece in PiecesInGame(color))
             {
                 if (piece is King)
                 {

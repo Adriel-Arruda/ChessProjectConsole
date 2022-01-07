@@ -85,7 +85,7 @@ namespace ChessProject
             }
             else
             {
-                if (piece.Color == Color.Branca)
+                if (piece.Color == Color.White)
                 {
                     Console.Write(piece);
                 }
@@ -111,12 +111,12 @@ namespace ChessProject
         {
             Console.WriteLine("Captured pieces: ");
             Console.Write("White: ");
-            PrintPieces(match.CapturedPieces(Color.Branca));
+            PrintPieces(match.CapturedPieces(Color.White));
             Console.WriteLine();
             Console.Write("Black: ");
             ConsoleColor aux = Console.ForegroundColor;
             Console.ForegroundColor = ConsoleColor.Yellow;
-            PrintPieces(match.CapturedPieces(Color.Preta));
+            PrintPieces(match.CapturedPieces(Color.Black));
             Console.ForegroundColor = aux;
             Console.WriteLine();
         }
